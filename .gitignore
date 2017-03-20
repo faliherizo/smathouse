@@ -1,0 +1,19 @@
+# Java class files
+*.class
+
+# Android Studio
+*.iml
+.idea
+
+# Gradle files
+.gradle
+**/build/
+
+# Generated files
+gen/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Mac OSX clutter
+.DS_Store

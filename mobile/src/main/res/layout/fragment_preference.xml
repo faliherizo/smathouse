@@ -1,0 +1,134 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fr.mbds.openhab.lifi.fragement.PreferenceFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="Preferences"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:id="@+id/Preference"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/textViewTemperature"
+            android:layout_alignStart="@+id/textViewTemperature"
+            android:textSize="27sp"
+            android:layout_alignRight="@+id/textTempMax"
+            android:layout_alignEnd="@+id/textTempMax" />
+        <TextView
+            android:text="Temperature max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:id="@+id/textViewTemperature"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/textTempMax"
+            android:layout_toStartOf="@+id/textTempMax"
+            android:layout_marginRight="91dp"
+            android:layout_marginEnd="91dp" />
+
+        <TextView
+            android:text="30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="106dp"
+            android:layout_marginEnd="106dp"
+            android:id="@+id/textTempMax"
+            android:layout_alignBaseline="@+id/textViewTemperature"
+            android:layout_alignBottom="@+id/textViewTemperature"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:text="8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView4"
+            android:layout_alignRight="@+id/textTempMax"
+            android:layout_alignEnd="@+id/textTempMax"
+            android:id="@+id/textViewTemMin" />
+
+        <TextView
+            android:text="Temperature min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:id="@+id/textView4"
+            android:layout_below="@+id/textViewTemperature"
+            android:layout_alignLeft="@+id/textViewTemperature"
+            android:layout_alignStart="@+id/textViewTemperature" />
+
+        <TextView
+            android:text="Television"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/checkBox"
+            android:layout_alignLeft="@+id/textView4"
+            android:layout_alignStart="@+id/textView4"
+            android:id="@+id/textView6"
+            android:layout_alignTop="@+id/checkBox" />
+
+        <TextView
+            android:text="Lampe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView6"
+            android:layout_alignStart="@+id/textView6"
+            android:id="@+id/textView7"
+            android:layout_below="@+id/textView6" />
+
+        <CheckBox
+            android:text="Allumé"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:id="@+id/checkBox"
+            android:layout_below="@+id/textViewTemMin"
+            android:layout_alignLeft="@+id/textTempMax"
+            android:layout_alignStart="@+id/textTempMax" />
+
+        <CheckBox
+            android:text="Allumé"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBox2"
+            android:layout_below="@+id/checkBox"
+            android:layout_alignLeft="@+id/checkBox"
+            android:layout_alignStart="@+id/checkBox" />
+
+        <Button
+            android:text="Save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button2"
+            android:layout_below="@+id/textView8"
+            android:layout_alignRight="@+id/checkBox3"
+            android:layout_alignEnd="@+id/checkBox3"
+            android:layout_marginTop="100dp" />
+
+        <TextView
+            android:text="Prise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView8"
+            android:layout_alignBaseline="@+id/checkBox3"
+            android:layout_alignBottom="@+id/checkBox3"
+            android:layout_alignLeft="@+id/textView7"
+            android:layout_alignStart="@+id/textView7" />
+
+        <CheckBox
+            android:text="On"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBox3"
+            android:layout_below="@+id/checkBox2"
+            android:layout_alignLeft="@+id/checkBox2"
+            android:layout_alignStart="@+id/checkBox2" />
+    </RelativeLayout>
+</FrameLayout>

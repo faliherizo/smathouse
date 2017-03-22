@@ -54,6 +54,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidquery.callback.AjaxStatus;
 import com.crittercism.app.Crittercism;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -67,8 +68,16 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.client.HttpResponseException;
 import cz.msebera.android.httpclient.conn.HttpHostConnectException;
 import cz.msebera.android.httpclient.entity.StringEntity;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.HABDroid;
@@ -88,8 +97,11 @@ import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -331,8 +343,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
         //Handler smartlight set input text
         mHandler = new SmartLightHandler((TextView)findViewById(R.id.id_filteredTxtView),
-                (TextView)findViewById(R.id.msgTxtView));
+                (TextView)findViewById(R.id.msgTxtView), this);
         smartLight = new SmartLightRunnable(mHandler, getApplicationContext());
+
+
+        //new WsOpenhab().execute();
     }
 
     @Override
@@ -1334,4 +1349,84 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
         mDrawerAdapter.notifyDataSetChanged();
     }
+/*
+    public class WsOpenhab extends AsyncTask<Void, Void, Void> {
+
+        private final String state=null;
+        public String command="OFF";
+
+        public WsOpenhab() {
+
+        }
+        private String KEY_ID= "id";
+        private String KEY_GCM="gcm";
+        private String Error = null;
+        @Override
+        protected Void doInBackground(Void... params) {
+            org.apache.http.HttpResponse response;
+            //Todo get and set web service
+            String ws_wemo =  "http://192.168.202.134:8080/rest/items/wemo_insight_Insight_1_0_221512K120051F_state";
+            try {
+
+                try{
+                    HttpClient client = new DefaultHttpClient();
+                    HttpPost post = new HttpPost(ws_wemo);
+
+                    post.setHeader("Content-Type", "text/plain");
+
+                    org.apache.http.entity.StringEntity entity = new org.apache.http.entity.StringEntity(command);
+                    post.setEntity(entity);
+
+                    HttpResponse responses = client.execute(post);
+                    Log.d("Post parameters : " , post.getEntity().toString());
+                    Log.d("Response Code : " ,"ok"+responses.getStatusLine().getStatusCode());
+
+
+                    BufferedReader rd = new BufferedReader(
+                            new InputStreamReader(responses.getEntity().getContent()));
+
+                    StringBuffer result = new StringBuffer();
+                    String line = "";
+                    while ((line = rd.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    Log.d("huhuhu",result.toString());
+                    if (command=="ON"){
+                        command="OFF";
+                    }
+                    else
+                        command="ON";
+
+                }catch (Exception e){
+
+                }
+
+
+                Log.d("teste","http://192.168.202.134:8080/rest/items/wemo_insight_Insight_1_0_221512K120051F_state");
+
+            }catch (Exception ex){
+                String Error = ex.getMessage();
+                System.out.println(Error);
+                Log.d("qsqsqsq","dsdsdsds");
+            }
+            return null;
+        }
+        private void onComplete(){
+        }
+        public void jsonCallback(String url, JSONObject json, AjaxStatus status){
+            System.out.println(json.toString());
+            if(json != null){
+                onComplete();
+            }else{
+                //ajax error
+            }
+
+        }
+
+
+
+    }
+*/
+
 }

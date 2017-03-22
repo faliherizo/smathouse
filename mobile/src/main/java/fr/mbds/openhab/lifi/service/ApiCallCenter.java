@@ -35,6 +35,8 @@ public class ApiCallCenter {
         return execute(caller, progress, url, AQuery.METHOD_GET, null);
     }
 
+
+
     public AjaxCallback<String> doDelete(Activity caller, ProgressDialog progress, String url) {
         return execute(caller, progress, url, AQuery.METHOD_DELETE, null);
     }
@@ -42,6 +44,10 @@ public class ApiCallCenter {
     public AjaxCallback<String> doPost(Activity caller, ProgressDialog progress, String url, HashMap<String, Object> params) {
         return execute(caller, progress, url, AQuery.METHOD_POST, params);
     }
+    public AjaxCallback<String> doPostURl(Activity caller, ProgressDialog progress, String url, HashMap<String, Object> params) {
+        return execute(caller, progress, url, AQuery.METHOD_POST, params);
+    }
+
     public AjaxCallback<String> doPut(Activity caller, ProgressDialog progress, String url, HashMap<String, Object> params) {
         return execute(caller, progress, url, AQuery.METHOD_PUT, params);
     }

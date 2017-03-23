@@ -4,10 +4,12 @@
     <!-- General app strings -->
     <string name="app_name">LAMPADAIRE LIFI</string>
     <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
-    <!-- <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>-->
-    <string name="openhab_demo_url">http://192.168.2.103:8080/</string>
-    <string name="nodejs_server_url">http://192.168.2.103:3000/</string>
-    <string name="openhab_ws_item_url">http://192.168.2.103:8080/rest/items/</string>
+
+    <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>
+    <!--  <string name="openhab_demo_url">http://localhost:8080/</string>  http://192.168.2.103:8080/ -->
+    <string name="nodejs_server_url">http://localhost:3000/</string> <!-- http://192.168.2.103:3000/ -->
+    <string name="openhab_ws_item_url">http://localhost:8080/rest/items/</string> <!-- http://192.168.2.103:8080/rest/items/ -->
+
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
     <string name="app_bindings">Bindings</string>

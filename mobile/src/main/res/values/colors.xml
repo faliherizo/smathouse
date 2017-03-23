@@ -5,7 +5,7 @@
     <color name="normal">#b0b0b0</color>
     <color name="light">#ffffff</color>
     <color name="dark">#191919</color>
-    <color name="highlight">#38c0f4</color>
+    <color name="highlight">#f47d38</color>
     <color name="colorAccent_themeDark">#9E9E9E</color>
     <color name="bgblue">#38c0f9</color>
 
@@ -170,7 +170,7 @@
     <color name="MediumBlue">#0000CD</color>
     <color name="DarkBlue">#00008B</color>
     <color name="Navy">#000080</color>
-    <color name="Black">#000000</color>
+    <color name="Black">#353535</color>
     <color name="sysBlack">#FF000000</color>
     <color name="sysBlue">#FF0000FF</color>
     <color name="sysCyan">#FF00FFFF</color>
@@ -272,7 +272,8 @@
     <color name="gesbank_item_liste_outline">#41719C</color>
     <color name="gesbank_apropos_text_gold">#BF9000</color>
     <color name="gesbank_green_text">#33AF11</color>
-
+    <color name="primary_material_dark_1">#dd0505</color>
+    <color name="background_material_dark_1">#e51f1f</color>
 
 
 </resources>

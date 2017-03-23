@@ -15,6 +15,15 @@ public class Preference {
     private String prise;
     private String temperature_max;
     private String temperature_min;
+    private String id_user;
+
+    public String getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(String id_user) {
+        this.id_user = id_user;
+    }
 
     public String getTv() {
         return tv;

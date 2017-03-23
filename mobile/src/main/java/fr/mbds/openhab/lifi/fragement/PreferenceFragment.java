@@ -1,14 +1,27 @@
 package fr.mbds.openhab.lifi.fragement;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.openhab.habdroid.R;
+
+import java.io.BufferedReader;
+import java.util.HashMap;
+
+import fr.mbds.openhab.lifi.model.Preference;
+import fr.mbds.openhab.lifi.service.ApiCallCenter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +36,7 @@ public class PreferenceFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    Preference p = new Preference();
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -106,4 +119,85 @@ public class PreferenceFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    ProgressDialog progressDialog;
+    public void showProgressDialog(boolean isVisible) {
+        if (isVisible) {
+            if (progressDialog == null) {
+                progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setMessage(getActivity().getResources().getString(R.string.please_wait));
+                progressDialog.setCancelable(false);
+                progressDialog.setIndeterminate(true);
+                progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        progressDialog = null;
+                    }
+                });
+                progressDialog.show();
+            }
+        } else {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+        }
+    }
+    public class SavePreference extends AsyncTask<Preference, Void, Preference>{
+
+        @Override
+        protected Preference doInBackground(Preference... params) {
+            Preference preference=null;
+
+            String reponseDuWebService;
+            BufferedReader reader=null;
+            //Effectuer la requete vers les WS ici (Send data )
+            try
+            {
+                HashMap<String, Object> postParams = new HashMap<>();
+                postParams.put("tv", p.getTv());
+                postParams.put("prise", p.getPrise());
+                postParams.put("temperature_max", p.getTemperature_max());
+                postParams.put("temperature_min", p.getTemperature_min());
+
+                //initProgressDialog();
+                JSONObject jsonObjectReturn = new JSONObject(ApiCallCenter.getInstance()
+                        .doPost(getActivity(), progressDialog, getString(R.string.nodejs_server_url)+"/preference/", postParams).getResult());
+                Preference p = new Preference(jsonObjectReturn);
+                return p;
+            }
+            catch(JSONException ex)
+            {
+                //Error = ex.getMessage();
+            }
+            catch(Exception ex)
+            {
+                //Error = ex.getMessage();
+            }
+            finally
+            {
+                try
+                {
+                    reader.close();
+                }
+
+                catch(Exception ex) {
+                    //Error = ex.getMessage();
+                }
+            }
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Preference pref) {
+            super.onPostExecute(pref);
+            //Enlever le loading
+            showProgressDialog(false);
+            if (pref!=null) {
+            }else{
+                Toast.makeText(getActivity(), "error before submitting...", Toast.LENGTH_LONG).show();
+            }
+            //Renvoyer vers le login
+            startActivity(new Intent(getActivity(), Preference.class));
+        }
+    }
+
 }

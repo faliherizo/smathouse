@@ -21,6 +21,8 @@ import org.openhab.habdroid.model.thing.ThingType;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.mbds.openhab.lifi.fragement.ScenarioFragment;
+
 public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener {
 
     private static final String TAG = OpenHABFragmentPagerAdapter.class.getSimpleName();
@@ -150,6 +152,13 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         }
     }
 
+    public void openScenario() {
+
+            ScenarioFragment fragment = ScenarioFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
+            fragmentList.add(fragment);
+            notifyDataSetChanged();
+
+    }
     public void openBindings() {
         if (fragmentList.size() > 0) {
             if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABBindingFragment)) {

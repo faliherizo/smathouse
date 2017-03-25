@@ -1,0 +1,142 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fr.mbds.openhab.lifi.fragement.ScenarioFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="Scenario 1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/switch1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/textView" />
+
+
+        <Button
+            android:text="Save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="62dp"
+            android:id="@+id/button4"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="25dp"
+            android:layout_marginEnd="25dp" />
+
+        <TextView
+            android:text="Scenario 2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/switch1"
+            android:layout_toLeftOf="@+id/switch1"
+            android:layout_toStartOf="@+id/switch1"
+            android:layout_marginTop="52dp"
+            android:id="@+id/textView11" />
+
+        <CheckBox
+            android:text="TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView11"
+            android:layout_toRightOf="@+id/textView11"
+            android:layout_toEndOf="@+id/textView11"
+            android:layout_marginLeft="11dp"
+            android:layout_marginStart="11dp"
+            android:id="@+id/checkBox12" />
+
+        <TextView
+            android:text="Scenario 3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView11"
+            android:layout_toLeftOf="@+id/checkBox12"
+            android:layout_toStartOf="@+id/checkBox12"
+            android:layout_marginTop="59dp"
+            android:id="@+id/textView12" />
+
+        <Switch
+            android:text="Switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/switch5"
+            android:layout_alignBottom="@+id/checkBox13"
+            android:layout_alignLeft="@+id/button4"
+            android:layout_alignStart="@+id/button4" />
+
+        <Switch
+            android:text="Prise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="37dp"
+            android:id="@+id/switch1"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/textView"
+            android:layout_toEndOf="@+id/textView"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBox6"
+            android:layout_alignBottom="@+id/switch1"
+            android:layout_centerHorizontal="true" />
+
+        <CheckBox
+            android:text="CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBox7"
+            android:layout_alignBottom="@+id/checkBox6"
+            android:layout_alignRight="@+id/button4"
+            android:layout_alignEnd="@+id/button4" />
+
+        <Switch
+            android:text="Prise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/switch6"
+            android:layout_alignBottom="@+id/checkBox14"
+            android:layout_alignTop="@+id/textView12"
+            android:layout_alignRight="@+id/checkBox6"
+            android:layout_alignEnd="@+id/checkBox6" />
+
+        <CheckBox
+            android:text="TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBox14"
+            android:layout_alignBottom="@+id/textView12"
+            android:layout_alignLeft="@+id/switch1"
+            android:layout_alignStart="@+id/switch1" />
+
+        <CheckBox
+            android:text="CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBox13"
+            android:layout_alignBaseline="@+id/checkBox12"
+            android:layout_alignBottom="@+id/checkBox12"
+            android:layout_alignLeft="@+id/checkBox6"
+            android:layout_alignStart="@+id/checkBox6" />
+        <ListView android:id="@id/android:list"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:drawSelectorOnTop="false"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:divider="#00000000"
+            android:dividerHeight="0dip"
+            android:scrollbarStyle="outsideOverlay"
+            />
+    </RelativeLayout>
+</FrameLayout>

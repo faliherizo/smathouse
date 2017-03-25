@@ -48,14 +48,13 @@ dependencies {
 
     compile files('libs/smartlight3.1.1.jar')
 
-
+    //compile 'com.google.apis:google-api-services-analytics:v3.+'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.google.android.gms:play-services:10.2.0'
-    //compile 'com.google.apis:google-api-services-analytics:v3.+'
     compile 'com.crittercism:crittercism-android-agent:5.6.3-rc-1'
     compile 'javax.jmdns:jmdns:3.4.1'
     compile 'com.loopj.android:android-async-http:1.4.9'

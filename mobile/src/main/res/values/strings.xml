@@ -6,7 +6,7 @@
     <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
     <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>
     <!--  <string name="openhab_demo_url">http://localhost:8080/</string> -->
-    <string name="nodejs_server_url">http://localhost:3000/</string>
+    <string name="nodejs_server_url">http://localhost:8000/</string>
     <string name="openhab_ws_item_url">http://demo.openhab.org:8080/rest/items/</string>
 
     <string name="app_preferences_name">Settings</string>

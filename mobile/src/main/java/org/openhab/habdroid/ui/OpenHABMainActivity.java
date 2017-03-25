@@ -1337,7 +1337,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private void loadDrawerItems() {
         mDrawerItemList.clear();
         if (mSitemapList != null) {
-            mDrawerItemList.add(OpenHABDrawerItem.headerItem("MBDS LAMPADAIRE L"));
+            mDrawerItemList.add(OpenHABDrawerItem.headerItem("Team Open Hab2 LIFI"));
             for (OpenHABSitemap sitemap : mSitemapList) {
                 mDrawerItemList.add(new OpenHABDrawerItem(sitemap));
             }
@@ -1353,10 +1353,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             //Add menu by Faly
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Scenario", getResources().getDrawable(R.drawable.scenario), DRAWER_SCENARIO));
 
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Discovery", getResources().getDrawable(R.drawable.ic_track_changes_grey600_36dp), DRAWER_INBOX));
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Discovery", getResources().getDrawable(R.drawable.discovery), DRAWER_INBOX));
 //            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("New devices", getResources().getDrawable(R.drawable.ic_inbox_grey600_36dp), 2, DRAWER_INBOX));
 //            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Things", getResources().getDrawable(R.drawable.ic_surround_sound_grey600_36dp)));
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Bindings", getResources().getDrawable(R.drawable.ic_extension_grey600_36dp), DRAWER_BINDINGS));
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Bindings", getResources().getDrawable(R.drawable.binding), DRAWER_BINDINGS));
 //        mDrawerItemList.add(OpenHABDrawerItem.menuItem("openHAB info", getResources().getDrawable(R.drawable.ic_info_grey600_36dp)));
 //            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Setup", getResources().getDrawable(R.drawable.ic_settings_grey600_36dp)));
         }

@@ -98,10 +98,10 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
                 }
                 if (siteMap.getIcon() != null && drawerItemImage != null) {
                     String iconUrl = openHABBaseUrl + Uri.encode(siteMap.getIconPath(),"/?=");
-                    drawerItemImage.setImageUrl(iconUrl, R.drawable.iconefemto,
+                    drawerItemImage.setImageUrl(iconUrl, R.drawable.home,
                             openHABUsername, openHABPassword);
                 } else {
-                    drawerItemImage.setImageDrawable(getContext().getResources().getDrawable(R.drawable.iconefemto));
+                    drawerItemImage.setImageDrawable(getContext().getResources().getDrawable(R.drawable.mainmenu));
                 }
                 break;
             case TYPE_DIVIDER_ITEM:

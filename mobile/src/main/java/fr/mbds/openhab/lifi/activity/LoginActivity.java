@@ -128,7 +128,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         //TODO authentification with  ID_LAMPADIARE / IMEI
 
 
-        // mLoginFormView = findViewById(R.id.login_form);
+        mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
         initProgressDialog();
@@ -354,7 +354,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 buzz.put("username",mEmail);
                 buzz.put("password",mPassword);
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppostreq = new HttpPost("http://10.182.41.23:8000/login");
+                HttpPost httppostreq = new HttpPost("http://10.0.2.2:8000/login");
                 StringEntity se = new StringEntity(buzz.toString());
                 se.setContentType("application/json;charset=UTF-8");
                 se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8"));

@@ -3,6 +3,7 @@ package fr.mbds.openhab.lifi.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -13,6 +14,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 
@@ -24,11 +26,14 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -90,8 +95,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -119,7 +128,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         //TODO authentification with  ID_LAMPADIARE / IMEI
 
 
-        mLoginFormView = findViewById(R.id.login_form);
+        // mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
         initProgressDialog();
@@ -127,6 +136,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mHandler = new SmartLightHandler((TextView)findViewById(R.id.id_filteredTxtView),
                 (TextView)findViewById(R.id.msgTxtView), this);
         smartLight = new SmartLightRunnable(mHandler, getApplicationContext());
+
+        LinearLayout linearLayoutLogo;
+        linearLayoutLogo = (LinearLayout) findViewById(R.id.linearImageLogo);
+
+        ImageView imageView = new ImageView(this);
+        imageView.setImageResource(R.drawable.logoappli2);
+
+        imageView.setLayoutParams(new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.WRAP_CONTENT));
+        linearLayoutLogo.addView(imageView);
+        //setContentView(linearLayout);
 
     }
     @Override
@@ -334,7 +354,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 buzz.put("username",mEmail);
                 buzz.put("password",mPassword);
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppostreq = new HttpPost("http://192.168.43.117:8000/login");
+                HttpPost httppostreq = new HttpPost("http://10.182.41.23:8000/login");
                 StringEntity se = new StringEntity(buzz.toString());
                 se.setContentType("application/json;charset=UTF-8");
                 se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8"));

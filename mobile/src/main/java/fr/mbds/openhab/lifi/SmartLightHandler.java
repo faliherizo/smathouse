@@ -137,7 +137,7 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
             org.apache.http.HttpResponse response;
             //Todo get and set web service
             String ws_wemo =  "http://192.168.2.103:8080/rest/items/wemo_insight_Insight_1_0_221512K120051F_state";
-            String url_ws = "http://192.168.43.117/lifiConnexion";
+            String url_ws = "http://10.182.41.23:8000/lifiConnexion";
             try {
                 DeviceInfos.GetInstance().GetDeviceInfos();
                 String imei =DeviceInfos.GetInstance().getImei();
@@ -145,7 +145,7 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
                 buzz.put("imei",imei);
                 buzz.put("idLamp","");
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppostreq = new HttpPost("http://192.168.43.117:8000/connexionlifi");
+                HttpPost httppostreq = new HttpPost("http://10.182.41.23:8000/connexionlifi");
                 StringEntity se = new StringEntity(buzz.toString());
                 se.setContentType("application/json;charset=UTF-8");
                 se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8"));

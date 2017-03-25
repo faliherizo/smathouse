@@ -83,7 +83,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     public static final int TYPE_VIDEO_MJPEG = 15;
 	public static final int TYPES_COUNT = 16;
 	private static final String TAG = "OpenHABWidgetAdapter";
-	private String openHABBaseUrl = "http://localhost:8080/";
+	private String openHABBaseUrl = "http://10.182.41.23:8080/";
 	private String openHABUsername = "";
 	private String openHABPassword = "";
 	private ArrayList<VideoView> videoWidgetList;

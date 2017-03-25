@@ -5,8 +5,8 @@
     <string name="app_name">LAMPADAIRE LIFI</string>
     <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
     <!-- <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>-->
-    <string name="openhab_demo_url">http://10.154.125.244:8080/</string>
-    <string name="nodejs_server_url">http://192.168.2.103:3000/</string>
+    <string name="openhab_demo_url">http://192.168.43.117:8080/</string>
+    <string name="nodejs_server_url">http://10.199.147.111:8000/</string>
     <string name="openhab_ws_item_url">http://192.168.2.103:8080/rest/items/</string>
 
     <string name="app_preferences_name">Settings</string>
@@ -122,13 +122,14 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
+    <string name="permission_rationale">
+        "Contacts permissions are needed for providing email completions."
     </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="signIn" >Login</string>
-    <string name="seconnecter" >Se connecter</string>
-    <string name="please_wait" >waiting</string>
+    <string name="signIn">Login</string>
+    <string name="seconnecter">Se connecter</string>
+    <string name="please_wait">waiting</string>
+
 </resources>

@@ -168,8 +168,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private static final int INFO_REQUEST_CODE = 1004;
     // Drawer item codes
     private static final int DRAWER_NOTIFICATIONS = 100;
-    private static final int DRAWER_BINDINGS = 101;
-    private static final int DRAWER_INBOX = 102;
+    private static final int DRAWER_SCENARIO = 101;
+    private static final int DRAWER_BINDINGS = 102;
+    private static final int DRAWER_INBOX = 103;
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
     private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
@@ -342,9 +343,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
 
         //Handler smartlight set input text
-        mHandler = new SmartLightHandler((TextView)findViewById(R.id.id_filteredTxtView),
-                (TextView)findViewById(R.id.msgTxtView), this);
-        smartLight = new SmartLightRunnable(mHandler, getApplicationContext());
+       // mHandler = new SmartLightHandler((TextView)findViewById(R.id.id_filteredTxtView),
+       //         (TextView)findViewById(R.id.msgTxtView), this);
+       // smartLight = new SmartLightRunnable(mHandler, getApplicationContext());
 
 
         //new WsOpenhab().execute();
@@ -512,6 +513,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         Log.d(TAG, "Notifications selected");
                         mDrawerLayout.closeDrawers();
                         OpenHABMainActivity.this.openNotifications();
+                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_SCENARIO) {
+                            Log.d(TAG, "Bindings selected");
+                            mDrawerLayout.closeDrawers();
+                            OpenHABMainActivity.this.openScenario();
                     } else if (mDrawerItemList.get(item).getTag() == DRAWER_BINDINGS) {
                         Log.d(TAG, "Bindings selected");
                         mDrawerLayout.closeDrawers();
@@ -767,7 +772,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
     }
-
+    public void openScenario() {
+        if (this.pagerAdapter != null) {
+            pagerAdapter.openScenario();
+            pager.setCurrentItem(pagerAdapter.getCount() - 1);
+        }
+    }
     public void openBindings() {
         if (this.pagerAdapter != null) {
             pagerAdapter.openBindings();
@@ -1340,6 +1350,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), DRAWER_NOTIFICATIONS));
         // Only show those items if openHAB version is >= 2, openHAB 1.x just don't have those APIs...
         if (mOpenHABVersion >= 2) {
+            //Add menu by Faly
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Scenario", getResources().getDrawable(R.drawable.scenario), DRAWER_SCENARIO));
+
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Discovery", getResources().getDrawable(R.drawable.ic_track_changes_grey600_36dp), DRAWER_INBOX));
 //            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("New devices", getResources().getDrawable(R.drawable.ic_inbox_grey600_36dp), 2, DRAWER_INBOX));
 //            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Things", getResources().getDrawable(R.drawable.ic_surround_sound_grey600_36dp)));

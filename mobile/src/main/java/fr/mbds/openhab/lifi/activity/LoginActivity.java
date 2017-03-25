@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,17 +33,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.callback.AjaxStatus;
+import com.luciom.opticallbs.SmartLightRunnable;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 
+import fr.mbds.openhab.lifi.SmartLightHandler;
 import fr.mbds.openhab.lifi.model.Person;
 import fr.mbds.openhab.lifi.service.ApiCallCenter;
 
@@ -70,6 +84,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mProgressView;
     private View mLoginFormView;
     private ProgressDialog progressDialog;
+    private SmartLightRunnable smartLight = null;
+    private Thread lifiThread = null;
+    private SmartLightHandler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,10 +116,37 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             }
         });
 
+        //TODO authentification with  ID_LAMPADIARE / IMEI
+
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-    }
 
+        initProgressDialog();
+        //Handler smartlight set input text
+        mHandler = new SmartLightHandler((TextView)findViewById(R.id.id_filteredTxtView),
+                (TextView)findViewById(R.id.msgTxtView), this);
+        smartLight = new SmartLightRunnable(mHandler, getApplicationContext());
+
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(smartLight.isRecording()) {
+            lifiThread.interrupt();
+            lifiThread = null;
+        }
+    }
+    @Override
+    public void onResume() {
+        Log.d("Resume", "onResume()");
+        super.onResume();
+
+        if(!smartLight.isRecording()) {
+            lifiThread = new Thread(smartLight);
+            lifiThread.start();
+        }
+    }
     private void populateAutoComplete() {
         getLoaderManager().initLoader(0, null, this);
     }
@@ -266,7 +310,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         private final String mEmail;
         private final String mPassword;
 
-        UserLoginTask(String email, String password) {
+        public UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
         }
@@ -278,20 +322,36 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            String url = "http://192.168.2.103:3000/person/login";
-            SharedPreferences sharedPref = getSharedPreferences("SessionManager", Context.MODE_PRIVATE);
-            String id = sharedPref.getString(KEY_ID, "");
-            String gcm = sharedPref.getString(KEY_GCM, "");
-            JSONArray jsonArray = null;
+           //String url = "http://192.168.2.103:3000/person/login";
+            //SharedPreferences sharedPref = getSharedPreferences("SessionManager", Context.MODE_PRIVATE);
+            //String id = sharedPref.getString(KEY_ID, "");
+            //String gcm = sharedPref.getString(KEY_GCM, "");
+            //JSONArray jsonArray = null;
+            String result = "";
+            InputStream inputStream = null;
             try {
-                HashMap<String, Object> postParams = new HashMap<>();
-                postParams.put("email", mEmail);
-                postParams.put("password", mPassword);
-                //initProgressDialog();
-                JSONObject jsonObjectReturn = new JSONObject(ApiCallCenter.getInstance()
-                        .doPost(LoginActivity.this, progressDialog, getString(R.string.nodejs_server_url), postParams).getResult());
-                if ((boolean) jsonObjectReturn.get("success")) {
-                    Person p = new Person(jsonObjectReturn.getJSONObject("user"));
+                JSONObject buzz = new JSONObject();
+                buzz.put("username",mEmail);
+                buzz.put("password",mPassword);
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppostreq = new HttpPost("http://192.168.43.117:8000/login");
+                StringEntity se = new StringEntity(buzz.toString());
+                se.setContentType("application/json;charset=UTF-8");
+                se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8"));
+                httppostreq.setEntity(se);
+
+                HttpResponse httpResponse =httpclient.execute(httppostreq);
+                // receive response as inputStream
+                inputStream = httpResponse.getEntity().getContent();
+
+                // convert inputstream to string
+                JSONObject jsonObjectReturn=null;
+                if(inputStream != null) {
+                    result = convertInputStreamToString(inputStream);
+                    jsonObjectReturn = new JSONObject(result);
+                }
+                if ((boolean) jsonObjectReturn.get("resultat")) {
+                    //Person p = new Person(jsonObjectReturn.getJSONObject("user"));
 
                     return true;
                 }
@@ -307,7 +367,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 }
             }
 
-            // TODO: register the new account here.
             return false;
         }
 
@@ -353,6 +412,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         progressDialog.setCancelable(false);
         progressDialog.setIndeterminate(true);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+    }
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
+
+        inputStream.close();
+        return result;
+
     }
 }
 

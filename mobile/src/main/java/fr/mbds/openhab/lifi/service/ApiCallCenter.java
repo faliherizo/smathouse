@@ -2,6 +2,7 @@ package fr.mbds.openhab.lifi.service;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.util.Log;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -42,7 +43,13 @@ public class ApiCallCenter {
     }
 
     public AjaxCallback<String> doPost(Activity caller, ProgressDialog progress, String url, HashMap<String, Object> params) {
-        return execute(caller, progress, url, AQuery.METHOD_POST, params);
+        try {
+            return execute(caller, progress, url, AQuery.METHOD_POST, params);
+        }catch (Exception e){
+            Log.d("error",e.getMessage());
+            return null;
+        }
+
     }
     public AjaxCallback<String> doPostURl(Activity caller, ProgressDialog progress, String url, HashMap<String, Object> params) {
         return execute(caller, progress, url, AQuery.METHOD_POST, params);

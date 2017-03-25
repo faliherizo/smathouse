@@ -131,5 +131,8 @@
     <string name="signIn">Login</string>
     <string name="seconnecter">Se connecter</string>
     <string name="please_wait">waiting</string>
+    <string name="TemperatureMin">Temperature Min</string>
+    <string name="TemperatureMax">Temperature Max</string>
+
 
 </resources>

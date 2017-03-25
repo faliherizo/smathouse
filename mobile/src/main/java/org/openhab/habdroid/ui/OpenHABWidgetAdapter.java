@@ -10,6 +10,7 @@
 package org.openhab.habdroid.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
@@ -200,23 +201,23 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         // Change label color only for non-frame widgets
         if(labelColor != null && labelTextView != null && this.getItemViewType(position) != TYPE_FRAME) {
             Log.d(TAG, String.format("Setting label color to %d", labelColor));
-            labelTextView.setTextColor(labelColor);
+            labelTextView.setTextColor(Color.parseColor("#3f3f3f"));
         } else if (labelTextView != null && this.getItemViewType(position) != TYPE_FRAME)
-            labelTextView.setTextColor(defaultTextView.getTextColors().getDefaultColor());
+            labelTextView.setTextColor(Color.parseColor("#3f3f3f"));
         // Get TextView for widget value and set it's color
         valueTextView = (TextView)widgetView.findViewById(R.id.widgetvalue);
         if (valueColor != null && valueTextView != null) {
             Log.d(TAG, String.format("Setting value color to %d", valueColor));
-            valueTextView.setTextColor(valueColor);
+            valueTextView.setTextColor(Color.parseColor("#3f3f3f"));
         } else if (valueTextView != null)
-            valueTextView.setTextColor(defaultTextView.getTextColors().getDefaultColor());
+            valueTextView.setTextColor(Color.parseColor("#3f3f3f"));
         defaultTextView = null;
     	switch (getItemViewType(position)) {
     	case TYPE_FRAME:
             if (labelTextView != null){
                 labelTextView.setText(openHABWidget.getLabel());
                 if(valueColor != null)
-                    labelTextView.setTextColor(valueColor);
+                    labelTextView.setTextColor(Color.parseColor("#3f3f3f"));
             }
     		widgetView.setClickable(false);
     		if (openHABWidget.getLabel().length() > 0) { // hide empty frames

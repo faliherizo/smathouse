@@ -2,11 +2,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- General app strings -->
-    <string name="app_name">LAMPADAIRE LIFI</string>
+    <string name="app_name">Team OH2 LIFI</string>
     <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
 
-    <!--<string name="openhab_demo_url">http://demo.openhab.org:8080/</string>-->
-    <string name="openhab_demo_url">http://10.182.41.23:8080/</string>
+    <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>
+    <!--<string name="openhab_demo_url">http://10.182.41.23:8080/</string>-->
     <string name="nodejs_server_url">http://10.182.41.23:8000/</string>
     <string name="openhab_ws_item_url">http://10.182.41.23:8080/rest/items/</string>
 

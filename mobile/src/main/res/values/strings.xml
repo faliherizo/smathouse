@@ -4,10 +4,12 @@
     <!-- General app strings -->
     <string name="app_name">LAMPADAIRE LIFI</string>
     <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
+
     <!--<string name="openhab_demo_url">http://demo.openhab.org:8080/</string>-->
     <string name="openhab_demo_url">http://10.182.41.23:8080/</string>
     <string name="nodejs_server_url">http://10.182.41.23:8000/</string>
     <string name="openhab_ws_item_url">http://10.182.41.23:8080/rest/items/</string>
+
 
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
@@ -131,5 +133,8 @@
     <string name="signIn">Login</string>
     <string name="seconnecter">Se connecter</string>
     <string name="please_wait">waiting</string>
+    <string name="TemperatureMin">Temperature Min</string>
+    <string name="TemperatureMax">Temperature Max</string>
+
 
 </resources>

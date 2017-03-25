@@ -153,7 +153,6 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     }
 
     public void openScenario() {
-
             ScenarioFragment fragment = ScenarioFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
             fragmentList.add(fragment);
             notifyDataSetChanged();

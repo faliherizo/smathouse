@@ -361,10 +361,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     public void onPause() {
         super.onPause();
 
-        if(smartLight.isRecording()) {
+       /* if(smartLight.isRecording()) {
             lifiThread.interrupt();
             lifiThread = null;
-        }
+        }*/
     }
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -377,10 +377,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         Log.d(TAG, "onResume()");
         super.onResume();
 
-        if(!smartLight.isRecording()) {
+        /*if(!smartLight.isRecording()) {
             lifiThread = new Thread(smartLight);
             lifiThread.start();
-        }
+        }*/
 
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this, 0, new Intent(this, ((Object) this).getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);

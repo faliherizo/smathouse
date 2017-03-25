@@ -13,5 +13,6 @@ public class ScenarioModel {
     public Button Execute;
     public Switch prise;
     public CheckBox OpenDor;
-    public CheckBox Enable;
+    public TextView temperaturemin;
+    public TextView temperaturemax;
 }

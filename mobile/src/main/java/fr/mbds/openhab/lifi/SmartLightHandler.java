@@ -203,42 +203,7 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
         }
 
     }
-    public void start_ws(){
-         final String state=null;
-         String command="OFF";
-        try{
-        HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("");
 
-        post.setHeader("Content-Type", "text/plain");
-
-        org.apache.http.entity.StringEntity entity = new org.apache.http.entity.StringEntity(command);
-        post.setEntity(entity);
-
-        HttpResponse responses = client.execute(post);
-        Log.d("Post parameters : " , post.getEntity().toString());
-        Log.d("Response Code : " ,"ok"+responses.getStatusLine().getStatusCode());
-
-
-        BufferedReader rd = new BufferedReader(
-                new InputStreamReader(responses.getEntity().getContent()));
-
-        StringBuffer result = new StringBuffer();
-        String line = "";
-        while ((line = rd.readLine()) != null) {
-            result.append(line);
-        }
-
-        Log.d("huhuhu",result.toString());
-        if (command=="ON"){
-            command="OFF";
-        }
-        else
-            command="ON";
-        }catch (Exception e){
-
-        }
-    }
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
         String line = "";

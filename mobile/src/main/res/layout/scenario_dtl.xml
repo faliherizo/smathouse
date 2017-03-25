@@ -8,17 +8,17 @@
         android:text="scenario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/radioButton"
+        android:layout_alignBottom="@+id/radioButtonOpendor"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/textView"
-        android:layout_alignTop="@+id/switch1" />
+        android:layout_alignTop="@+id/switchprise" />
 
-    <RadioButton
+    <CheckBox
         android:text="Open dor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioButton"
+        android:id="@+id/radioButtonOpendor"
         android:layout_alignTop="@+id/button3"
         android:layout_toRightOf="@+id/textView"
         android:layout_toEndOf="@+id/textView"
@@ -29,11 +29,11 @@
         android:text="Switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/switch1"
-        android:layout_alignBaseline="@+id/radioButton"
-        android:layout_alignBottom="@+id/radioButton"
-        android:layout_toRightOf="@+id/radioButton"
-        android:layout_toEndOf="@+id/radioButton"
+        android:id="@+id/switchprise"
+        android:layout_alignBaseline="@+id/radioButtonOpendor"
+        android:layout_alignBottom="@+id/radioButtonOpendor"
+        android:layout_toRightOf="@+id/radioButtonOpendor"
+        android:layout_toEndOf="@+id/radioButtonOpendor"
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp" />
 
@@ -50,8 +50,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/radioButton"
-        android:layout_alignStart="@+id/radioButton"
+        android:layout_alignLeft="@+id/radioButtonOpendor"
+        android:layout_alignStart="@+id/radioButtonOpendor"
         android:id="@+id/textView10"
         tools:text="@string/TemperatureMin"
         android:layout_below="@+id/button3" />

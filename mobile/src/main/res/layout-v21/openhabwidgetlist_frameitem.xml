@@ -14,7 +14,6 @@
         android:layout_marginBottom="7dip"
         android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
         android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
-        android:background="?attr/frameWidgetDividerBackground"
         android:gravity="top"
         android:orientation="horizontal" />
 
@@ -27,7 +26,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="5dp"
         android:textAllCaps="true"
-        android:textColor="?attr/themedHeaderTextColor"
+        android:textColor="#e75b30"
         android:textStyle="bold" />
 
 </RelativeLayout>

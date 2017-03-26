@@ -372,7 +372,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 }
                 if ((boolean) jsonObjectReturn.get("resultat")) {
                     //Person p = new Person(jsonObjectReturn.getJSONObject("user"));
-
                     return true;
                 }
             } catch (Exception ex) {

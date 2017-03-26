@@ -19,16 +19,21 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.OpenHABBindingFragment;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.List;
@@ -267,11 +272,23 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
         @Override
         protected List<Scenario> doInBackground(Integer... params) {
             JSONArray jsonArray = null;
+            String result;
             try {
-                jsonArray = new JSONArray(ApiCallCenter.getInstance().doGet(getActivity(),
-                        progressDialog, getString(R.string.nodejs_server_url)+"/scenario").getResult());
+                HttpClient client = new DefaultHttpClient();
+                HttpGet request = new HttpGet("http://10.0.2.2:8000/scenario");
+                HttpResponse response = client.execute(request);
+                InputStream  inputStream= response.getEntity().getContent();
+                if(inputStream != null) {
+                    result = convertInputStreamToString(inputStream);
+                    jsonArray = new JSONArray(result);
+                }
+                //jsonArray = new JSONArray(ApiCallCenter.getInstance().doGet(getActivity(),
+                 //       progressDialog, getString(R.string.nodejs_server_url)+"/scenario").getResult());
                 return Scenario.fromJson(jsonArray);
-            } catch (JSONException e) {
+            /*} catch (JSONException e) {
+                e.printStackTrace();
+                return null;*/
+            }catch (Exception e){
                 e.printStackTrace();
                 return null;
             }
@@ -284,5 +301,16 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
             listScenario.setAdapter(adapter);
             Toast.makeText(getActivity(), "Liste chargée", Toast.LENGTH_LONG).show();
         }
+    }
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
+
+        inputStream.close();
+        return result;
+
     }
 }

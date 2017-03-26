@@ -109,7 +109,7 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_scenario, container, false);
-        listScenario = (ListView) rootView.findViewById(R.id.list);
+        listScenario = (ListView) rootView.findViewById(android.R.id.list);
         setProgressDialog();
         new ListScenario().execute();
         // Inflate the layout for this fragment

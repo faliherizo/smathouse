@@ -51,10 +51,14 @@ public class Scenario {
 
     public Scenario(JSONObject jsonObject) {
         try {
+            if(jsonObject.has("name"))
+                this.titre =jsonObject.getString("name");
             if(jsonObject.has("status"))
                 this.status = Boolean.valueOf(jsonObject.getString("status"));
             if(jsonObject.has("_id"))
                 this._id = jsonObject.getString("_id");
+            if(jsonObject.has("scenariodtl"))
+                this.scenarioDtls = ScenarioDtl.fromJson(jsonObject.getJSONArray("scenariodtl"));
 
         } catch (JSONException e) {
             e.printStackTrace();

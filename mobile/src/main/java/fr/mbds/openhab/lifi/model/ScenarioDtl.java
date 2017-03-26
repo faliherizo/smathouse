@@ -1,5 +1,11 @@
 package fr.mbds.openhab.lifi.model;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 /**
  * Created by Faliherizo on 25/03/2017.
  */
@@ -41,6 +47,33 @@ public class ScenarioDtl {
         this.value = value;
     }
 
+    public ScenarioDtl(JSONObject jsonObject) {
+        try {
+            if(jsonObject.has("id_scenario"))
+                this.id_scenario =jsonObject.getString("id_scenario");
+            if(jsonObject.has("name"))
+                this.name = jsonObject.getString("name");
+            if(jsonObject.has("value"))
+                this.value = jsonObject.getString("value");
+            if(jsonObject.has("type"))
+                this.type = jsonObject.getString("type");
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static ArrayList<ScenarioDtl> fromJson(JSONArray jsonObjects) {
+        ArrayList<ScenarioDtl> scenarios = new ArrayList<>();
+        for (int i = 0; i < jsonObjects.length(); i++) {
+            try {
+                scenarios.add(new ScenarioDtl(jsonObjects.getJSONObject(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return scenarios;
+    }
 
 }

@@ -354,7 +354,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 buzz.put("username",mEmail);
                 buzz.put("password",mPassword);
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppostreq = new HttpPost("http://10.0.2.2:8000/login");
+                HttpPost httppostreq = new HttpPost("http://10.0.2.2:8000/authentif");
                 StringEntity se = new StringEntity(buzz.toString());
                 se.setContentType("application/json;charset=UTF-8");
                 se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8"));

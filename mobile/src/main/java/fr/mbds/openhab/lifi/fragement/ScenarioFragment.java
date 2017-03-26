@@ -1,6 +1,7 @@
 package fr.mbds.openhab.lifi.fragement;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -15,20 +16,28 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.OpenHABBindingFragment;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import fr.mbds.openhab.lifi.adapteur.AdapteurScenario;
 import fr.mbds.openhab.lifi.model.Scenario;
+import fr.mbds.openhab.lifi.model.ScenarioDtl;
+import fr.mbds.openhab.lifi.service.ApiCallCenter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,7 +61,9 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
     private static final String ARG_BASEURL = "openHABBaseUrl";
 
     private OnFragmentInteractionListener mListener;
-
+    private AdapteurScenario adapter;
+    ListView listScenario;
+    List<Scenario> list= null;
     public ScenarioFragment() {
         // Required empty public constructor
     }
@@ -97,8 +108,12 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_scenario, container, false);
+        listScenario = (ListView) rootView.findViewById(R.id.android_list);
+        setProgressDialog();
+        new ListScenario().execute();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scenario, container, false);
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -145,7 +160,27 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
         if (v.getId() == R.id.button2) {
             try {
                 //Todo Onclick set request ws to Openhab
-                new ExecuteScenario().execute();
+                int pos =(Integer) v.getTag();
+                Scenario p =(Scenario) adapter.getItem(pos);
+                for (ScenarioDtl dtl:p.getScenarioDtls()) {
+                    switch(dtl.getType()){
+                        case "Switch":
+                            if(dtl.getValue()=="ON")
+                                new ExecuteScenario().execute();
+                            break;
+                        case "checkbox":
+
+                            break;
+                        case "tempmax":
+
+                            break;
+                        case "tempmin":
+
+                            break;
+                        default: break;
+                    }
+                }
+
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -185,7 +220,7 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
             String command="OFF";
             try{
                 HttpClient client = new DefaultHttpClient();
-                HttpPost post = new HttpPost(getString(R.string.openhab_ws_item_url));
+                HttpPost post = new HttpPost(getString(R.string.openhab_ws_wemo_insight_url));
 
                 post.setHeader("Content-Type", "text/plain");
 
@@ -196,7 +231,6 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
                 Log.d("Post parameters : " , post.getEntity().toString());
                 Log.d("Response Code : " ,"ok"+responses.getStatusLine().getStatusCode());
 
-
                 BufferedReader rd = new BufferedReader(
                         new InputStreamReader(responses.getEntity().getContent()));
 
@@ -205,7 +239,6 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
                 while ((line = rd.readLine()) != null) {
                     result.append(line);
                 }
-
                 Log.d("huhuhu",result.toString());
                 if (command=="ON"){
                     command="OFF";
@@ -222,6 +255,34 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
 
         }
     }
+    ProgressDialog progressDialog;
+    public void setProgressDialog() {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Patientez...");
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+    }
+    public class ListScenario extends AsyncTask<Integer, Void, List<Scenario>> {
+        @Override
+        protected List<Scenario> doInBackground(Integer... params) {
+            JSONArray jsonArray = null;
+            try {
+                jsonArray = new JSONArray(ApiCallCenter.getInstance().doGet(getActivity(),
+                        progressDialog, getString(R.string.nodejs_server_url)+"/scenario").getResult());
+                return Scenario.fromJson(jsonArray);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
 
-
+        }
+        @Override
+        protected void onPostExecute(List<Scenario> listscenario) {
+            super.onPostExecute(listscenario);
+            adapter = new AdapteurScenario(getActivity(), listscenario, ScenarioFragment.this);
+            listScenario.setAdapter(adapter);
+            Toast.makeText(getActivity(), "Liste chargée", Toast.LENGTH_LONG).show();
+        }
+    }
 }

@@ -30,11 +30,11 @@ public class AdapteurScenario extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return 0;
+        return listScenario.size();
     }
     @Override
     public Object getItem(int position) {
-        return null;
+        return listScenario.get(position);
     }
     @Override
     public long getItemId(int position) {
@@ -56,18 +56,20 @@ public class AdapteurScenario extends BaseAdapter {
         }
 
         Scenario scenario = listScenario.get(position);
-        scenarioview.prise.setChecked(true);
-
+        scenarioview.titre.setText(scenario.getTitre());
         for (ScenarioDtl dtl: scenario.getScenarioDtls()) {
             switch(dtl.getType()){
                 case "Switch":
-
+                    scenarioview.prise.setText(dtl.getValue());
                     break;
                 case "checkbox":
-
+                    scenarioview.OpenDor.setChecked(Boolean.valueOf(dtl.getValue()));
                     break;
-                case "text":
-
+                case "tempmax":
+                    scenarioview.temperaturemax.setText(dtl.getValue());
+                    break;
+                case "tempmin":
+                    scenarioview.temperaturemin.setText(dtl.getValue());
                     break;
                 default: break;
             }

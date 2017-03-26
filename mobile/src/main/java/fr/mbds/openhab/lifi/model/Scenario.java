@@ -12,9 +12,18 @@ import java.util.List;
  */
 
 public class Scenario {
+    private String titre;
     private Boolean status;
     private String _id;
     private List<ScenarioDtl> scenarioDtls;
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
 
     public Boolean getStatus() {
         return status;

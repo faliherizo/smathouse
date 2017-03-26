@@ -114,7 +114,7 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_scenario, container, false);
-        listScenario = (ListView) rootView.findViewById(android.R.id.list);
+        listScenario = (ListView) rootView.findViewById(R.id.listscenario);
         setProgressDialog();
         new ListScenario().execute();
         // Inflate the layout for this fragment
@@ -162,7 +162,7 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.button2) {
+        if (v.getId() == R.id.button3) {
             try {
                 //Todo Onclick set request ws to Openhab
                 int pos =(Integer) v.getTag();
@@ -222,7 +222,7 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
         }
         public void start_ws(){
             final String state=null;
-            String command="OFF";
+            String command="ON";
             try{
                 HttpClient client = new DefaultHttpClient();
                 HttpPost post = new HttpPost(getString(R.string.openhab_ws_wemo_insight_url));
@@ -284,6 +284,8 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
                 }
                 //jsonArray = new JSONArray(ApiCallCenter.getInstance().doGet(getActivity(),
                  //       progressDialog, getString(R.string.nodejs_server_url)+"/scenario").getResult());
+                if(jsonArray.toString().equals("[]"))
+                    return Scenario.GetIniList();
                 return Scenario.fromJson(jsonArray);
             /*} catch (JSONException e) {
                 e.printStackTrace();

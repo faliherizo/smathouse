@@ -62,7 +62,7 @@ public class ScenarioDtl {
             e.printStackTrace();
         }
     }
-
+    public ScenarioDtl(){}
 
     public static ArrayList<ScenarioDtl> fromJson(JSONArray jsonObjects) {
         ArrayList<ScenarioDtl> scenarios = new ArrayList<>();

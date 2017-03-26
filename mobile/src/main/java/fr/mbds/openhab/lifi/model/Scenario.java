@@ -15,8 +15,10 @@ public class Scenario {
     private String titre;
     private Boolean status;
     private String _id;
-    private List<ScenarioDtl> scenarioDtls;
+    private List<ScenarioDtl> scenarioDtls=new ArrayList<>();
+    public Scenario(){
 
+    }
     public String getTitre() {
         return titre;
     }
@@ -76,5 +78,35 @@ public class Scenario {
             }
         }
         return scenarios;
+    }
+
+
+
+    public static List<Scenario> GetIniList(){
+        List<Scenario> list=new ArrayList<>();
+        Scenario s = new Scenario();
+        s.setTitre("Scenario 1");
+        ScenarioDtl dtl1 = new ScenarioDtl();
+        dtl1.setName("wemo_insight_Insight_1_0_221512K120051F_state");
+        dtl1.setType("Switch");
+        dtl1.setValue("ON");
+        s.scenarioDtls.add(dtl1);
+        ScenarioDtl dtl2 = new ScenarioDtl();
+        dtl2.setName("Porte");
+        dtl2.setType("checkbox");
+        dtl2.setValue("true");
+        s.scenarioDtls.add(dtl2);
+        list.add(s);
+
+        Scenario s2 = new Scenario();
+        ScenarioDtl dtl4 = new ScenarioDtl();
+        dtl4.setName("wemo_insight_Insight_1_0_221512K120051F_state");
+        dtl4.setType("Switch");
+        dtl4.setValue("OFF");
+        s2.scenarioDtls.add(dtl4);
+        s2.scenarioDtls.add(dtl2);
+        s2.setTitre("Scenario 2");
+        list.add(s2);
+        return list;
     }
 }

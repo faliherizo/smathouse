@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -50,9 +51,12 @@ public class AdapteurScenario extends BaseAdapter {
             scenarioview.prise =(Switch) view.findViewById(R.id.switchprise);
             scenarioview.OpenDor =(CheckBox) view.findViewById(R.id.radioButtonOpendor);
             scenarioview.titre  =(TextView) view.findViewById(R.id.textView);
-            scenarioview.temperaturemin  =(TextView) view.findViewById(R.id.tempMin);
-            scenarioview.temperaturemax  =(TextView) view.findViewById(R.id.tempmax);
-            view.setTag(view);
+            scenarioview.Execute  =(Button) view.findViewById(R.id.button3);
+            //scenarioview.temperaturemin  =(TextView) view.findViewById(R.id.tempMin);
+           // scenarioview.temperaturemax  =(TextView) view.findViewById(R.id.tempmax);
+            view.setTag(scenarioview);
+        }else{
+            scenarioview = (ScenarioModel) view.getTag();
         }
 
         Scenario scenario = listScenario.get(position);
@@ -60,20 +64,25 @@ public class AdapteurScenario extends BaseAdapter {
         for (ScenarioDtl dtl: scenario.getScenarioDtls()) {
             switch(dtl.getType()){
                 case "Switch":
-                    scenarioview.prise.setText(dtl.getValue());
+                    if(dtl.getValue()=="ON")
+                        scenarioview.prise.setChecked(true);
+                    else
+                        scenarioview.prise.setChecked(false);
                     break;
                 case "checkbox":
                     scenarioview.OpenDor.setChecked(Boolean.valueOf(dtl.getValue()));
                     break;
                 case "tempmax":
-                    scenarioview.temperaturemax.setText(dtl.getValue());
+                   // scenarioview.temperaturemax.setText(dtl.getValue());
                     break;
                 case "tempmin":
-                    scenarioview.temperaturemin.setText(dtl.getValue());
+                    //scenarioview.temperaturemin.setText(dtl.getValue());
                     break;
                 default: break;
             }
         }
+        scenarioview.Execute.setTag(position);
+        scenarioview.Execute.setOnClickListener(this.listener);
         return view;
     }
 }

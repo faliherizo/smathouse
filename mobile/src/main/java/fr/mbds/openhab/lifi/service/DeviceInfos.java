@@ -1,5 +1,6 @@
 package fr.mbds.openhab.lifi.service;
 
+import android.content.Context;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
 import android.text.TextUtils;
@@ -158,6 +159,7 @@ public class DeviceInfos {
             mcc = Integer.parseInt(pNetworkOperator.substring(0, 3));
             mnc = Integer.parseInt(pNetworkOperator.substring(3));
         }
+
         cellLocation = (GsmCellLocation) telephonyManager.getCellLocation();
         inputStream = socket.getInputStream();
         cid = cellLocation.getCid();

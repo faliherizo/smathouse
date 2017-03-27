@@ -21,6 +21,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -92,7 +93,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private SmartLightRunnable smartLight = null;
     private Thread lifiThread = null;
     private SmartLightHandler mHandler;
-
+    private TelephonyManager telephonyManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -132,9 +133,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mProgressView = findViewById(R.id.login_progress);
 
         initProgressDialog();
+        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         //Handler smartlight set input text
         mHandler = new SmartLightHandler((TextView)findViewById(R.id.id_filteredTxtView),
-                (TextView)findViewById(R.id.msgTxtView), this);
+                (TextView)findViewById(R.id.msgTxtView), this, telephonyManager.getDeviceId());
         smartLight = new SmartLightRunnable(mHandler, getApplicationContext());
 
         LinearLayout linearLayoutLogo;
@@ -354,7 +356,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 buzz.put("username",mEmail);
                 buzz.put("password",mPassword);
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppostreq = new HttpPost("http://10.0.2.2:8000/authentif");
+                HttpPost httppostreq = new HttpPost(getString(R.string.nodejs_server_url)+"authentif");
                 StringEntity se = new StringEntity(buzz.toString());
                 se.setContentType("application/json;charset=UTF-8");
                 se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8"));

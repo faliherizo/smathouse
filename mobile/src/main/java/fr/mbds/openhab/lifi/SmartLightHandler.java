@@ -39,11 +39,13 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
     private Activity context;
     private WsOpenhab mAuthTask;
     private String idlamp;
-    public SmartLightHandler(TextView id_filtered, TextView message, Activity context) {
+    private String imei;
+    public SmartLightHandler(TextView id_filtered, TextView message, Activity context, String imei) {
         super();
         this.id_filtered = id_filtered;
         this.message = message;
         this.context = context;
+        this.imei = imei;
     }
 
     @Override
@@ -139,13 +141,13 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
             String ws_wemo =  "http://10.0.2.2:8080/rest/items/wemo_insight_Insight_1_0_221512K120051F_state";
             String url_ws = "http://10.0.2.2:8000/lifiConnexion";
             try {
-                DeviceInfos.GetInstance().GetDeviceInfos();
-                String imei =DeviceInfos.GetInstance().getImei();
+               // DeviceInfos.GetInstance().GetDeviceInfos();
+                //String imei =DeviceInfos.GetInstance().getImei();
                 JSONObject buzz = new JSONObject();
                 buzz.put("imei",imei);
-                buzz.put("idLamp","");
+               // buzz.put("idLamp","");
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppostreq = new HttpPost("http://10.0.2.2:8000/connexionlifi");
+                HttpPost httppostreq = new HttpPost(context.getString(R.string.nodejs_server_url)+"connexionlifi");
                 StringEntity se = new StringEntity(buzz.toString());
                 se.setContentType("application/json;charset=UTF-8");
                 se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8"));
@@ -167,8 +169,6 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
                     return true;
                 }
 
-
-
                 Log.d("test","http://10.0.2.2:8080/rest/items/wemo_insight_Insight_1_0_221512K120051F_state");
 
             }catch (Exception ex){
@@ -176,7 +176,7 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
                 System.out.println(Error);
                 Log.d("qsqsqsq","dsdsdsds");
             }
-            return null;
+            return false;
         }
         private void onComplete(){
 

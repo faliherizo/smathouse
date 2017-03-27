@@ -170,8 +170,7 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
                 for (ScenarioDtl dtl:p.getScenarioDtls()) {
                     switch(dtl.getType()){
                         case "Switch":
-                            if(dtl.getValue()=="ON")
-                                new ExecuteScenario().execute();
+                                new ExecuteScenario().execute(dtl.getValue());
                             break;
                         case "checkbox":
 
@@ -210,17 +209,15 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
         //Log.d(TAG, "refresh()");
     }
 
-    public class ExecuteScenario extends AsyncTask<Void, Void, Boolean>{
+    public class ExecuteScenario extends AsyncTask<String, Void, Boolean>{
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Boolean doInBackground(String... params) {
             //Todo get value of Prise ( if ON )
-            if(true){
-                start_ws();
-            }
+            start_ws(params[0]);
             return null;
         }
-        public void start_ws(){
+        public void start_ws(String status){
             final String state=null;
             String command="ON";
             try{
@@ -229,7 +226,7 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
 
                 post.setHeader("Content-Type", "text/plain");
 
-                org.apache.http.entity.StringEntity entity = new org.apache.http.entity.StringEntity(command);
+                org.apache.http.entity.StringEntity entity = new org.apache.http.entity.StringEntity(status);
                 post.setEntity(entity);
 
                 HttpResponse responses = client.execute(post);
@@ -245,11 +242,7 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
                     result.append(line);
                 }
                 Log.d("huhuhu",result.toString());
-                if (command=="ON"){
-                    command="OFF";
-                }
-                else
-                    command="ON";
+                command=status;
             }catch (Exception e){
 
             }

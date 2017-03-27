@@ -168,10 +168,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private static final int INFO_REQUEST_CODE = 1004;
     // Drawer item codes
     private static final int DRAWER_NOTIFICATIONS = 100;
-    private static final int DRAWER_PREFERENCE =101;
-    private static final int DRAWER_SCENARIO = 102;
-    private static final int DRAWER_BINDINGS = 103;
-    private static final int DRAWER_INBOX = 104;
+    //private static final int DRAWER_PREFERENCE =101;
+    private static final int DRAWER_SCENARIO = 101;
+    private static final int DRAWER_BINDINGS = 102;
+    private static final int DRAWER_INBOX = 103;
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
     private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
@@ -1352,7 +1352,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         // Only show those items if openHAB version is >= 2, openHAB 1.x just don't have those APIs...
         if (mOpenHABVersion >= 2) {
             //Add menu by Faly
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Preference", getResources().getDrawable(R.drawable.scenario), DRAWER_PREFERENCE));
+            //mDrawerItemList.add(OpenHABDrawerItem.menuItem("Preference", getResources().getDrawable(R.drawable.scenario), DRAWER_PREFERENCE));
 
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Scenario", getResources().getDrawable(R.drawable.scenario), DRAWER_SCENARIO));
 

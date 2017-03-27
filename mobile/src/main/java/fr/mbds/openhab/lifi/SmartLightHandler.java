@@ -165,10 +165,8 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
                 }
                 if ((boolean) jsonObjectReturn.get("resultat")) {
                     //Person p = new Person(jsonObjectReturn.getJSONObject("user"));
-
                     return true;
                 }
-
                 Log.d("test","http://10.0.2.2:8080/rest/items/wemo_insight_Insight_1_0_221512K120051F_state");
 
             }catch (Exception ex){
@@ -199,11 +197,8 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
             }else{
                 //ajax error
             }
-
         }
-
     }
-
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
         String line = "";

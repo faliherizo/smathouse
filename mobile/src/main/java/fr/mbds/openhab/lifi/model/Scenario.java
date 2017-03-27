@@ -96,6 +96,12 @@ public class Scenario {
         dtl2.setType("checkbox");
         dtl2.setValue("true");
         s.scenarioDtls.add(dtl2);
+
+        ScenarioDtl dtl5 = new ScenarioDtl();
+        dtl5.setName("wemo_insight_Insight_1_0_221606K1200165_state");
+        dtl5.setType("Switch");
+        dtl5.setValue("OFF");
+        s.scenarioDtls.add(dtl5);
         list.add(s);
 
         Scenario s2 = new Scenario();
@@ -103,6 +109,8 @@ public class Scenario {
         dtl4.setName("wemo_insight_Insight_1_0_221512K120051F_state");
         dtl4.setType("Switch");
         dtl4.setValue("OFF");
+
+        s2.scenarioDtls.add(dtl5);
         s2.scenarioDtls.add(dtl4);
         s2.scenarioDtls.add(dtl2);
         s2.setTitre("Scenario 2");

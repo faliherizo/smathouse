@@ -170,7 +170,15 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
                 for (ScenarioDtl dtl:p.getScenarioDtls()) {
                     switch(dtl.getType()){
                         case "Switch":
-                                new ExecuteScenario().execute(dtl.getValue());
+                            String[] params = new String[2];
+                            params[1]=dtl.getValue();
+                            if(dtl.getName()=="wemo_insight_Insight_1_0_221512K120051F_state") {
+                                params[0]="wemo_insight_Insight_1_0_221512K120051F_state";
+
+                            }else{
+                                params[0]= "wemo_insight_Insight_1_0_221606K1200165_state";
+                            }
+                            new ExecuteScenario().execute(params);
                             break;
                         case "checkbox":
 
@@ -209,40 +217,36 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
         //Log.d(TAG, "refresh()");
     }
 
-    public class ExecuteScenario extends AsyncTask<String, Void, Boolean>{
+    public class ExecuteScenario extends AsyncTask<String[], Void, Boolean>{
 
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected Boolean doInBackground(String[]... params) {
             //Todo get value of Prise ( if ON )
             start_ws(params[0]);
             return null;
         }
-        public void start_ws(String status){
+        public void start_ws(String[] status){
             final String state=null;
             String command="ON";
             try{
                 HttpClient client = new DefaultHttpClient();
-                HttpPost post = new HttpPost(getString(R.string.openhab_ws_wemo_insight_url));
-
+                HttpPost post = new HttpPost(getString(R.string.openhab_ws_item_url)+status[0]);
                 post.setHeader("Content-Type", "text/plain");
-
-                org.apache.http.entity.StringEntity entity = new org.apache.http.entity.StringEntity(status);
+                org.apache.http.entity.StringEntity entity = new org.apache.http.entity.StringEntity(status[1]);
                 post.setEntity(entity);
-
                 HttpResponse responses = client.execute(post);
                 Log.d("Post parameters : " , post.getEntity().toString());
                 Log.d("Response Code : " ,"ok"+responses.getStatusLine().getStatusCode());
 
                 BufferedReader rd = new BufferedReader(
                         new InputStreamReader(responses.getEntity().getContent()));
-
                 StringBuffer result = new StringBuffer();
                 String line = "";
                 while ((line = rd.readLine()) != null) {
                     result.append(line);
                 }
                 Log.d("huhuhu",result.toString());
-                command=status;
+                    command=status[0];
             }catch (Exception e){
 
             }
@@ -268,7 +272,7 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
             String result;
             try {
                 HttpClient client = new DefaultHttpClient();
-                HttpGet request = new HttpGet("http://10.0.2.2:8000/scenario");
+                HttpGet request = new HttpGet(getString(R.string.nodejs_server_url)+"scenario");
                 HttpResponse response = client.execute(request);
                 InputStream  inputStream= response.getEntity().getContent();
                 if(inputStream != null) {

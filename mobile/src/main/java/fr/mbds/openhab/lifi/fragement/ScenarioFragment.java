@@ -179,7 +179,7 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
                         case "Switch":
                             String[] params = new String[2];
                             params[1]=dtl.getValue();
-                            if(dtl.getName()=="wemo_insight_Insight_1_0_221512K120051F_state") {
+                            if(dtl.getName().equals("wemo_insight_Insight_1_0_221512K120051F_state")) {
                                 params[0]="wemo_insight_Insight_1_0_221512K120051F_state";
 
                             }else{
@@ -290,10 +290,10 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
                     result = convertInputStreamToString(inputStream);
                     jsonArray = new JSONArray(result);
                 }
-                if(jsonArray.toString().equals("[]"))
+                //if(jsonArray.toString().equals("[]"))
                     return Scenario.GetIniList();
 
-                return Scenario.fromJson(jsonArray);
+                //return Scenario.fromJson(jsonArray);
             }catch (Exception e){
                 e.printStackTrace();
                 return null;

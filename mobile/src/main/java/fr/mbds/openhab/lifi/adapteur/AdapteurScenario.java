@@ -49,9 +49,9 @@ public class AdapteurScenario extends BaseAdapter {
         if(view==null){
             view = View.inflate(context, R.layout.scenario_dtl, null);
             scenarioview = new ScenarioModel();
-            scenarioview.prise =(Switch) view.findViewById(R.id.switchprise);
+            scenarioview.prise =(Switch) view.findViewById(R.id.switchprise1);
             scenarioview.prise2 =(Switch) view.findViewById(R.id.switchprise2);
-            scenarioview.OpenDor =(CheckBox) view.findViewById(R.id.radioButtonOpendor);
+            //scenarioview.OpenDor =(CheckBox) view.findViewById(R.id.radioButtonOpendor);
             scenarioview.titre  =(TextView) view.findViewById(R.id.textView);
             scenarioview.Execute  =(Button) view.findViewById(R.id.button3);
             //scenarioview.temperaturemin  =(TextView) view.findViewById(R.id.tempMin);
@@ -67,22 +67,22 @@ public class AdapteurScenario extends BaseAdapter {
 
             switch(dtl.getType()){
                 case "Switch":
-                    if(dtl.getName()=="wemo_insight_Insight_1_0_221512K120051F_state"){
+                    if(dtl.getName().equals("wemo_insight_Insight_1_0_221512K120051F_state")){
                         scenarioview.prise.setText("Plug 1");
-                        if(dtl.getValue()=="ON")
+                        if(dtl.getValue().equals("ON"))
                             scenarioview.prise.setChecked(true);
                         else
                             scenarioview.prise.setChecked(false);
                     }else{
                         scenarioview.prise2.setText("Plug 2");
-                        if(dtl.getValue()=="ON")
+                        if(dtl.getValue().equals("ON"))
                             scenarioview.prise2.setChecked(true);
                         else
                             scenarioview.prise2.setChecked(false);
                     }
                     break;
                 case "checkbox":
-                    scenarioview.OpenDor.setChecked(Boolean.valueOf(dtl.getValue()));
+                    //scenarioview.OpenDor.setChecked(Boolean.valueOf(dtl.getValue()));
                     break;
                 case "tempmax":
                    // scenarioview.temperaturemax.setText(dtl.getValue());

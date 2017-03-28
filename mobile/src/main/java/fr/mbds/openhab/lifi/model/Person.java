@@ -11,10 +11,19 @@ import java.util.ArrayList;
  */
 
 public class Person {
+    private String id;
     private String name;
     private String firstname;
     private String login;
     private String password;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -51,15 +60,16 @@ public class Person {
     public Person(JSONObject jsonObject) {
         try {
 
+            if(jsonObject.has("_id"))
+                this.id = jsonObject.getString("_id");
             if(jsonObject.has("name"))
                 this.name = jsonObject.getString("name");
-            if(jsonObject.has("firstname"))
-                this.firstname = jsonObject.getString("firstname");
-            if(jsonObject.has("login"))
-                this.login = jsonObject.getString("login");
+            if(jsonObject.has("firstName"))
+                this.firstname = jsonObject.getString("firstName");
+            if(jsonObject.has("username"))
+                this.login = jsonObject.getString("username");
             if(jsonObject.has("password"))
                 this.password = jsonObject.getString("password");
-
 
         } catch (JSONException e) {
             e.printStackTrace();

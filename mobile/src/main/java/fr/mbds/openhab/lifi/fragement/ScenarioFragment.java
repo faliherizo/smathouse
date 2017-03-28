@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -40,6 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 import fr.mbds.openhab.lifi.adapteur.AdapteurScenario;
+import fr.mbds.openhab.lifi.model.Person;
 import fr.mbds.openhab.lifi.model.Scenario;
 import fr.mbds.openhab.lifi.model.ScenarioDtl;
 import fr.mbds.openhab.lifi.service.ApiCallCenter;
@@ -69,6 +72,9 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
     private AdapteurScenario adapter;
     ListView listScenario;
     List<Scenario> list= null;
+    private SharedPreferences sharedpreferences;
+    private static final String PREF_NAME = "SessionManager";
+    public static final String KEY_USER = "user";
     public ScenarioFragment() {
         // Required empty public constructor
     }
@@ -116,6 +122,7 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
         View rootView = inflater.inflate(R.layout.fragment_scenario, container, false);
         listScenario = (ListView) rootView.findViewById(R.id.listscenario);
         setProgressDialog();
+        sharedpreferences = getActivity().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         new ListScenario().execute();
         // Inflate the layout for this fragment
         return rootView;
@@ -170,7 +177,15 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
                 for (ScenarioDtl dtl:p.getScenarioDtls()) {
                     switch(dtl.getType()){
                         case "Switch":
-                                new ExecuteScenario().execute(dtl.getValue());
+                            String[] params = new String[2];
+                            params[1]=dtl.getValue();
+                            if(dtl.getName()=="wemo_insight_Insight_1_0_221512K120051F_state") {
+                                params[0]="wemo_insight_Insight_1_0_221512K120051F_state";
+
+                            }else{
+                                params[0]= "wemo_insight_Insight_1_0_221606K1200165_state";
+                            }
+                            new ExecuteScenario().execute(params);
                             break;
                         case "checkbox":
 
@@ -209,40 +224,36 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
         //Log.d(TAG, "refresh()");
     }
 
-    public class ExecuteScenario extends AsyncTask<String, Void, Boolean>{
+    public class ExecuteScenario extends AsyncTask<String[], Void, Boolean>{
 
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected Boolean doInBackground(String[]... params) {
             //Todo get value of Prise ( if ON )
             start_ws(params[0]);
             return null;
         }
-        public void start_ws(String status){
+        public void start_ws(String[] status){
             final String state=null;
             String command="ON";
             try{
                 HttpClient client = new DefaultHttpClient();
-                HttpPost post = new HttpPost(getString(R.string.openhab_ws_wemo_insight_url));
-
+                HttpPost post = new HttpPost(getString(R.string.openhab_ws_item_url)+status[0]);
                 post.setHeader("Content-Type", "text/plain");
-
-                org.apache.http.entity.StringEntity entity = new org.apache.http.entity.StringEntity(status);
+                org.apache.http.entity.StringEntity entity = new org.apache.http.entity.StringEntity(status[1]);
                 post.setEntity(entity);
-
                 HttpResponse responses = client.execute(post);
                 Log.d("Post parameters : " , post.getEntity().toString());
                 Log.d("Response Code : " ,"ok"+responses.getStatusLine().getStatusCode());
 
                 BufferedReader rd = new BufferedReader(
                         new InputStreamReader(responses.getEntity().getContent()));
-
                 StringBuffer result = new StringBuffer();
                 String line = "";
                 while ((line = rd.readLine()) != null) {
                     result.append(line);
                 }
                 Log.d("huhuhu",result.toString());
-                command=status;
+                    command=status[0];
             }catch (Exception e){
 
             }
@@ -267,22 +278,22 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
             JSONArray jsonArray = null;
             String result;
             try {
+                String  p=sharedpreferences.getString(KEY_USER, "");
+                Gson gson = new Gson();
+                Person person =  gson.fromJson(p, Person.class);
                 HttpClient client = new DefaultHttpClient();
-                HttpGet request = new HttpGet("http://10.0.2.2:8000/scenario");
+                HttpGet request = new HttpGet(getString(R.string.nodejs_server_url)+"scenarioMobile?idUser="+person.getId());
+
                 HttpResponse response = client.execute(request);
                 InputStream  inputStream= response.getEntity().getContent();
                 if(inputStream != null) {
                     result = convertInputStreamToString(inputStream);
                     jsonArray = new JSONArray(result);
                 }
-                //jsonArray = new JSONArray(ApiCallCenter.getInstance().doGet(getActivity(),
-                 //       progressDialog, getString(R.string.nodejs_server_url)+"/scenario").getResult());
                 if(jsonArray.toString().equals("[]"))
                     return Scenario.GetIniList();
+
                 return Scenario.fromJson(jsonArray);
-            /*} catch (JSONException e) {
-                e.printStackTrace();
-                return null;*/
             }catch (Exception e){
                 e.printStackTrace();
                 return null;

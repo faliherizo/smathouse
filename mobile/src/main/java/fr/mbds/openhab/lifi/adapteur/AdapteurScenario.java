@@ -24,6 +24,7 @@ public class AdapteurScenario extends BaseAdapter {
     private Context context;
     public List<Scenario> listScenario;
     private View.OnClickListener listener;
+    private String prise2 = "wemo_insight_Insight_1_0_221606K1200165_state";
     public AdapteurScenario(Context context, List<Scenario> listProduct, View.OnClickListener listener){
         this.context = context;
         this.listScenario = listProduct;
@@ -49,6 +50,7 @@ public class AdapteurScenario extends BaseAdapter {
             view = View.inflate(context, R.layout.scenario_dtl, null);
             scenarioview = new ScenarioModel();
             scenarioview.prise =(Switch) view.findViewById(R.id.switchprise);
+            scenarioview.prise2 =(Switch) view.findViewById(R.id.switchprise2);
             scenarioview.OpenDor =(CheckBox) view.findViewById(R.id.radioButtonOpendor);
             scenarioview.titre  =(TextView) view.findViewById(R.id.textView);
             scenarioview.Execute  =(Button) view.findViewById(R.id.button3);
@@ -62,12 +64,22 @@ public class AdapteurScenario extends BaseAdapter {
         Scenario scenario = listScenario.get(position);
         scenarioview.titre.setText(scenario.getTitre());
         for (ScenarioDtl dtl: scenario.getScenarioDtls()) {
+
             switch(dtl.getType()){
                 case "Switch":
-                    if(dtl.getValue()=="ON")
-                        scenarioview.prise.setChecked(true);
-                    else
-                        scenarioview.prise.setChecked(false);
+                    if(dtl.getName()=="wemo_insight_Insight_1_0_221512K120051F_state"){
+                        scenarioview.prise.setText(dtl.getName());
+                        if(dtl.getValue()=="ON")
+                            scenarioview.prise.setChecked(true);
+                        else
+                            scenarioview.prise.setChecked(false);
+                    }else{
+                        scenarioview.prise2.setText(dtl.getName());
+                        if(dtl.getValue()=="ON")
+                            scenarioview.prise2.setChecked(true);
+                        else
+                            scenarioview.prise2.setChecked(false);
+                    }
                     break;
                 case "checkbox":
                     scenarioview.OpenDor.setChecked(Boolean.valueOf(dtl.getValue()));

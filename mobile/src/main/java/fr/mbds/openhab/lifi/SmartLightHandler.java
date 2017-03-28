@@ -31,7 +31,9 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import fr.mbds.openhab.lifi.activity.LoginActivity;
+import fr.mbds.openhab.lifi.model.Person;
 import fr.mbds.openhab.lifi.service.DeviceInfos;
+import fr.mbds.openhab.lifi.service.SessionManager;
 
 
 public class SmartLightHandler extends SmartLightHandlerAbs {
@@ -40,12 +42,15 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
     private WsOpenhab mAuthTask;
     private String idlamp;
     private String imei;
+    private SessionManager session;
+    private static final String PREF_NAME = "SessionManager";
     public SmartLightHandler(TextView id_filtered, TextView message, Activity context, String imei) {
         super();
         this.id_filtered = id_filtered;
         this.message = message;
         this.context = context;
         this.imei = imei;
+        session = new SessionManager(PREF_NAME,context);
     }
 
     @Override
@@ -89,11 +94,14 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
         else if(msg.what==MsgWhat.FILTERED_UID.value) {
             if(msg.obj instanceof byte[]) {
                 id_filtered_data = "FILTERED_ID=";
+                String IdLamp ="";
                 byte[] filtered_id = (byte[])msg.obj;
                 for(int i=0; i<filtered_id.length; i++) {
                     id_filtered_data += String.format("%02X", filtered_id[i]);
+                    IdLamp += String.format("%02X", filtered_id[i]);
                 }
-                new WsOpenhab().execute();
+
+                new WsOpenhab().execute(IdLamp);
                 //String url ="lifiConnexion";
                 //idlamp="";
 
@@ -121,7 +129,7 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
     }
 
 
-    public class WsOpenhab extends AsyncTask<Void, Void, Boolean> {
+    public class WsOpenhab extends AsyncTask<String, Void, Boolean> {
 
         private final String state=null;
         public String command="OFF";
@@ -133,7 +141,7 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
         private String KEY_GCM="gcm";
         private String Error = null;
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Boolean doInBackground(String... params) {
             String result = "";
             InputStream inputStream = null;
             org.apache.http.HttpResponse response;
@@ -145,7 +153,7 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
                 //String imei =DeviceInfos.GetInstance().getImei();
                 JSONObject buzz = new JSONObject();
                 buzz.put("imei",imei);
-               // buzz.put("idLamp","");
+                buzz.put("idLamp",params[0]);
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppostreq = new HttpPost(context.getString(R.string.nodejs_server_url)+"connexionlifi");
                 StringEntity se = new StringEntity(buzz.toString());
@@ -164,11 +172,10 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
                     jsonObjectReturn = new JSONObject(result);
                 }
                 if ((boolean) jsonObjectReturn.get("resultat")) {
-                    //Person p = new Person(jsonObjectReturn.getJSONObject("user"));
-
+                    Person p = new Person(jsonObjectReturn);
+                    session.createLoginSession(p);
                     return true;
                 }
-
                 Log.d("test","http://10.0.2.2:8080/rest/items/wemo_insight_Insight_1_0_221512K120051F_state");
 
             }catch (Exception ex){
@@ -199,11 +206,8 @@ public class SmartLightHandler extends SmartLightHandlerAbs {
             }else{
                 //ajax error
             }
-
         }
-
     }
-
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
         String line = "";

@@ -4,39 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="scenario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/radioButtonOpendor"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/textView"
-        android:layout_alignTop="@+id/switchprise" />
-
-    <CheckBox
-        android:text="Open dor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButtonOpendor"
-        android:layout_alignTop="@+id/button3"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp" />
-
-    <Switch
-        android:text="Switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/switchprise"
-        android:layout_alignBaseline="@+id/radioButtonOpendor"
-        android:layout_alignBottom="@+id/radioButtonOpendor"
-        android:layout_toRightOf="@+id/radioButtonOpendor"
-        android:layout_toEndOf="@+id/radioButtonOpendor"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp" />
-
     <Button
         android:text="Execute"
         android:layout_width="wrap_content"
@@ -46,6 +13,41 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <CheckBox
+        android:text="Open dor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButtonOpendor"
+        android:layout_alignTop="@+id/button3"
+        android:layout_centerHorizontal="true" />
+
+    <Switch
+        android:text="Switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switchprise"
+        android:layout_below="@+id/radioButtonOpendor"
+        android:layout_alignRight="@+id/radioButtonOpendor"
+        android:layout_alignEnd="@+id/radioButtonOpendor" />
+
+    <Switch
+        android:text="Switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switchprise2"
+        android:layout_below="@+id/switchprise"
+        android:layout_alignLeft="@+id/switchprise"
+        android:layout_alignStart="@+id/switchprise" />
+
+    <TextView
+        android:text="scenario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_alignBottom="@+id/button3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

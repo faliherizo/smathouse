@@ -65,6 +65,7 @@ import org.openhab.habdroid.ui.OpenHABMainActivity;
 import fr.mbds.openhab.lifi.SmartLightHandler;
 import fr.mbds.openhab.lifi.model.Person;
 import fr.mbds.openhab.lifi.service.ApiCallCenter;
+import fr.mbds.openhab.lifi.service.SessionManager;
 
 
 /**
@@ -94,11 +95,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private Thread lifiThread = null;
     private SmartLightHandler mHandler;
     private TelephonyManager telephonyManager;
+    private static final String PREF_NAME = "SessionManager";
+    private SessionManager session;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -117,7 +117,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 return false;
             }
         });
-
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -125,29 +124,23 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 attemptLogin();
             }
         });
-
         //TODO authentification with  ID_LAMPADIARE / IMEI
-
-
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-
         initProgressDialog();
         telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         //Handler smartlight set input text
         mHandler = new SmartLightHandler((TextView)findViewById(R.id.id_filteredTxtView),
                 (TextView)findViewById(R.id.msgTxtView), this, telephonyManager.getDeviceId());
         smartLight = new SmartLightRunnable(mHandler, getApplicationContext());
-
         LinearLayout linearLayoutLogo;
         linearLayoutLogo = (LinearLayout) findViewById(R.id.linearImageLogo);
-
         ImageView imageView = new ImageView(this);
         imageView.setImageResource(R.drawable.logoappli2);
-
         imageView.setLayoutParams(new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT));
         linearLayoutLogo.addView(imageView);
+        session = new SessionManager(PREF_NAME,getApplicationContext());
         //setContentView(linearLayout);
 
     }
@@ -321,7 +314,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
                 ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
         };
-
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
     }
@@ -361,7 +353,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 se.setContentType("application/json;charset=UTF-8");
                 se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8"));
                 httppostreq.setEntity(se);
-
                 HttpResponse httpResponse =httpclient.execute(httppostreq);
                 // receive response as inputStream
                 inputStream = httpResponse.getEntity().getContent();
@@ -373,7 +364,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     jsonObjectReturn = new JSONObject(result);
                 }
                 if ((boolean) jsonObjectReturn.get("resultat")) {
-                    //Person p = new Person(jsonObjectReturn.getJSONObject("user"));
+                    Person p = new Person(jsonObjectReturn);
+                    session.createLoginSession(p);
                     return true;
                 }
             } catch (Exception ex) {
@@ -387,7 +379,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     return pieces[1].equals(mPassword);
                 }
             }
-
             return false;
         }
 

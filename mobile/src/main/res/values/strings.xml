@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-
     <!-- General app strings -->
     <string name="app_name">Team OH2 LIFI</string>
     <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
-
     <string name="openhab_demo_url">http://192.168.2.103:8080/</string>
     <!--<string name="openhab_demo_url">http://10.182.41.23:8080/</string>-->
     <string name="openhab_ws_item_url">http://192.168.2.101:8000/rest/items/</string>

@@ -5,13 +5,8 @@
     <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
     <string name="openhab_demo_url">http://192.168.2.103:8080/</string>
     <!--<string name="openhab_demo_url">http://10.182.41.23:8080/</string>-->
-<<<<<<< HEAD
-    <string name="nodejs_server_url">http://192.168.2.112:8000/</string>
-    <string name="openhab_ws_item_url">http://192.168.2.103:8080/rest/items/</string>
-=======
     <string name="nodejs_server_url">http://192.168.2.101:8000/</string>
-    <string name="openhab_ws_item_url">http://192.168.2.101:8080/rest/items/</string>
->>>>>>> 84511f874cecf5518c39533de8813d3074ec5493
+    <string name="openhab_ws_item_url">http://192.168.2.103:8080/rest/items/</string>
     <string name="openhab_ws_wemo_insight_url">http://192.168.2.103:8080/rest/items/wemo_insight_Insight_1_0_221512K120051F_state</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>

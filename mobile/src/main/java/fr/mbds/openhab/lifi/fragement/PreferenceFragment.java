@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,14 +14,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.List;
 
+import fr.mbds.openhab.lifi.adapteur.AdapteurScenario;
+import fr.mbds.openhab.lifi.model.Person;
 import fr.mbds.openhab.lifi.model.Preference;
+import fr.mbds.openhab.lifi.model.Scenario;
 import fr.mbds.openhab.lifi.service.ApiCallCenter;
 
 /**
@@ -40,13 +55,13 @@ public class PreferenceFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private OnFragmentInteractionListener mListener;
-
+    private static final String PREF_NAME = "SessionManager";
+    private SharedPreferences sharedpreferences;
+    public static final String KEY_USER = "user";
     public PreferenceFragment() {
         // Required empty public constructor
     }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -64,7 +79,6 @@ public class PreferenceFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,21 +87,19 @@ public class PreferenceFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        sharedpreferences = getActivity().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_preference, container, false);
     }
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -98,13 +110,11 @@ public class PreferenceFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -142,7 +152,6 @@ public class PreferenceFragment extends Fragment {
         }
     }
     public class SavePreference extends AsyncTask<Preference, Void, Preference>{
-
         @Override
         protected Preference doInBackground(Preference... params) {
             Preference preference=null;
@@ -153,16 +162,13 @@ public class PreferenceFragment extends Fragment {
             try
             {
                 HashMap<String, Object> postParams = new HashMap<>();
-                postParams.put("tv", p.getTv());
-                postParams.put("prise", p.getPrise());
-                postParams.put("temperature_max", p.getTemperature_max());
-                postParams.put("temperature_min", p.getTemperature_min());
-
-                //initProgressDialog();
+                String  p=sharedpreferences.getString(KEY_USER, "");
+                Gson gson = new Gson();
+                Person person =  gson.fromJson(p, Person.class);
                 JSONObject jsonObjectReturn = new JSONObject(ApiCallCenter.getInstance()
                         .doPost(getActivity(), progressDialog, getString(R.string.nodejs_server_url)+"/preference/", postParams).getResult());
-                Preference p = new Preference(jsonObjectReturn);
-                return p;
+                Preference pref = new Preference(jsonObjectReturn);
+                return pref;
             }
             catch(JSONException ex)
             {
@@ -178,7 +184,6 @@ public class PreferenceFragment extends Fragment {
                 {
                     reader.close();
                 }
-
                 catch(Exception ex) {
                     //Error = ex.getMessage();
                 }
@@ -198,6 +203,54 @@ public class PreferenceFragment extends Fragment {
             //Renvoyer vers le login
             startActivity(new Intent(getActivity(), Preference.class));
         }
+    }
+
+    public class GetPreference extends AsyncTask<Integer, Void, Preference> {
+        @Override
+        protected Preference doInBackground(Integer... params) {
+            JSONArray jsonArray = null;
+            String result;
+            try {
+                String  p=sharedpreferences.getString(KEY_USER, "");
+                Gson gson = new Gson();
+                Person person =  gson.fromJson(p, Person.class);
+                HttpClient client = new DefaultHttpClient();
+                HttpGet request = new HttpGet(getString(R.string.nodejs_server_url)+"preference?idUser="+person.getId());
+
+                HttpResponse response = client.execute(request);
+                InputStream inputStream= response.getEntity().getContent();
+                if(inputStream != null) {
+                    result = convertInputStreamToString(inputStream);
+                    jsonArray = new JSONArray(result);
+                }
+
+
+                return null;
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+        @Override
+        protected void onPostExecute(Preference preference) {
+            super.onPostExecute(preference);
+            //Todo set pref into the form
+
+            Toast.makeText(getActivity(), "Liste chargée", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
+
+        inputStream.close();
+        return result;
+
     }
 
 }

@@ -59,8 +59,8 @@ public class Scenario {
                 this.status = Boolean.valueOf(jsonObject.getString("status"));
             if(jsonObject.has("_id"))
                 this._id = jsonObject.getString("_id");
-            if(jsonObject.has("scenariodtl"))
-                this.scenarioDtls = ScenarioDtl.fromJson(jsonObject.getJSONArray("scenariodtl"));
+            if(jsonObject.has("scenarioDtl"))
+                this.scenarioDtls = ScenarioDtl.fromJson(jsonObject.getJSONArray("scenarioDtl"));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -100,7 +100,7 @@ public class Scenario {
         ScenarioDtl dtl5 = new ScenarioDtl();
         dtl5.setName("wemo_insight_Insight_1_0_221606K1200165_state");
         dtl5.setType("Switch");
-        dtl5.setValue("OFF");
+        dtl5.setValue("ON");
         s.scenarioDtls.add(dtl5);
         list.add(s);
 

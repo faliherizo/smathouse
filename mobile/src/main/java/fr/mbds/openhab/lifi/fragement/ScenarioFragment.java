@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -40,6 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 import fr.mbds.openhab.lifi.adapteur.AdapteurScenario;
+import fr.mbds.openhab.lifi.model.Person;
 import fr.mbds.openhab.lifi.model.Scenario;
 import fr.mbds.openhab.lifi.model.ScenarioDtl;
 import fr.mbds.openhab.lifi.service.ApiCallCenter;
@@ -69,6 +72,9 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
     private AdapteurScenario adapter;
     ListView listScenario;
     List<Scenario> list= null;
+    private SharedPreferences sharedpreferences;
+    private static final String PREF_NAME = "SessionManager";
+    public static final String KEY_USER = "user";
     public ScenarioFragment() {
         // Required empty public constructor
     }
@@ -116,6 +122,7 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
         View rootView = inflater.inflate(R.layout.fragment_scenario, container, false);
         listScenario = (ListView) rootView.findViewById(R.id.listscenario);
         setProgressDialog();
+        sharedpreferences = getActivity().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         new ListScenario().execute();
         // Inflate the layout for this fragment
         return rootView;
@@ -271,22 +278,22 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
             JSONArray jsonArray = null;
             String result;
             try {
+                String  p=sharedpreferences.getString(KEY_USER, "");
+                Gson gson = new Gson();
+                Person person =  gson.fromJson(p, Person.class);
                 HttpClient client = new DefaultHttpClient();
-                HttpGet request = new HttpGet(getString(R.string.nodejs_server_url)+"scenario");
+                HttpGet request = new HttpGet(getString(R.string.nodejs_server_url)+"scenarioMobile?idUser="+person.getId());
+
                 HttpResponse response = client.execute(request);
                 InputStream  inputStream= response.getEntity().getContent();
                 if(inputStream != null) {
                     result = convertInputStreamToString(inputStream);
                     jsonArray = new JSONArray(result);
                 }
-                //jsonArray = new JSONArray(ApiCallCenter.getInstance().doGet(getActivity(),
-                 //       progressDialog, getString(R.string.nodejs_server_url)+"/scenario").getResult());
                 if(jsonArray.toString().equals("[]"))
                     return Scenario.GetIniList();
+
                 return Scenario.fromJson(jsonArray);
-            /*} catch (JSONException e) {
-                e.printStackTrace();
-                return null;*/
             }catch (Exception e){
                 e.printStackTrace();
                 return null;

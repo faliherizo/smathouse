@@ -2,75 +2,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/backgroundlogin">
-
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:paddingTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/linearLayout">
-
-        <!--
-        <CheckBox
-            android:text="Plug"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/radioButtonOpendor"
-            android:textColor="@color/black"
-            android:layout_alignTop="@+id/button3"
-            android:layout_centerHorizontal="true" />-->
-
-        <Switch
-            android:text="Switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/switchprise"
-            android:textColor="@color/black"
-            android:layout_below="@+id/radioButtonOpendor"
-            android:layout_alignRight="@+id/radioButtonOpendor"
-            android:layout_alignEnd="@+id/radioButtonOpendor" />
-
-        <Switch
-            android:text="Switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/switchprise2"
-            android:textColor="@color/black"
-            android:layout_below="@+id/switchprise"
-            android:layout_alignLeft="@+id/switchprise"
-            android:layout_alignStart="@+id/switchprise" />
-
-
-    </LinearLayout>
-
-
-    <TextView
-        android:text="Scenario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="14dp"
-        android:textColor="#c4340c"
-        android:textSize="17dp"
-        android:id="@+id/textView"
-        android:layout_alignTop="@+id/button3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    android:layout_height="match_parent">
 
     <Button
         android:text="Execute"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/button3"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/linearLayout"
-        android:layout_toEndOf="@+id/linearLayout"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <CheckBox
+        android:text="Open door"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButtonOpendor"
+        android:textColor="@color/black"
+        android:layout_alignTop="@+id/button3"
+        android:layout_centerHorizontal="true" />
+
+    <Switch
+        android:text="Switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switchprise"
+        android:layout_below="@+id/radioButtonOpendor"
+        android:layout_alignRight="@+id/radioButtonOpendor"
+        android:layout_alignEnd="@+id/radioButtonOpendor" />
+
+    <Switch
+        android:text="Switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switchprise2"
+        android:layout_below="@+id/switchprise"
+        android:layout_alignLeft="@+id/switchprise"
+        android:layout_alignStart="@+id/switchprise" />
+
+    <TextView
+        android:text="scenario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:id="@+id/textView"
+        android:layout_alignBottom="@+id/button3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

@@ -68,13 +68,13 @@ public class AdapteurScenario extends BaseAdapter {
             switch(dtl.getType()){
                 case "Switch":
                     if(dtl.getName()=="wemo_insight_Insight_1_0_221512K120051F_state"){
-                        scenarioview.prise.setText(dtl.getName());
+                        scenarioview.prise.setText("Plug 1");
                         if(dtl.getValue()=="ON")
                             scenarioview.prise.setChecked(true);
                         else
                             scenarioview.prise.setChecked(false);
                     }else{
-                        scenarioview.prise2.setText(dtl.getName());
+                        scenarioview.prise2.setText("Plug 2");
                         if(dtl.getValue()=="ON")
                             scenarioview.prise2.setChecked(true);
                         else

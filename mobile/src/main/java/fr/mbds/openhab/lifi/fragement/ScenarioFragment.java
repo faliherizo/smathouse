@@ -290,10 +290,10 @@ public class ScenarioFragment extends ListFragment implements ViewPager.OnPageCh
                     result = convertInputStreamToString(inputStream);
                     jsonArray = new JSONArray(result);
                 }
-                //if(jsonArray.toString().equals("[]"))
+                if(jsonArray.toString().equals("[]"))
                     return Scenario.GetIniList();
 
-                //return Scenario.fromJson(jsonArray);
+                return Scenario.fromJson(jsonArray);
             }catch (Exception e){
                 e.printStackTrace();
                 return null;

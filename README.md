@@ -1,10 +1,8 @@
 ## Introduction
 
-openHAB Android application is a native client for openHAB. It uses REST API of openHAB to render
+smathouse Android application is a native client for openHAB. It uses REST API of openHAB to render
 sitemaps of your openHAB. It also supports my.openhab.org including push notifications.
 Release version of the app is always available for installation through
-[Google Play](https://play.google.com/store/apps/details?id=org.openhab.habdroid)
-Development snapshots are available for download on [CloudBees](https://openhab.ci.cloudbees.com/job/HABDroid/)
 
 ## Setting up development environment
 
@@ -28,3 +26,18 @@ Product names, logos, brands and other trademarks referred to within the openHAB
 property of their respective trademark holders. These trademark holders are not affiliated with
 openHAB or our website. They do not sponsor or endorse our materials.
 # smathouse
+
+
+API:
+
+fr.mbds.openhab.lifi:
+	activity : activity
+	fragement: fragement 
+	model: model of object
+	service: service to use
+	adapteur: the adapteur to use in the different fragement 
+	SmartLightHandler : class (get the id  for Lampadaire LIFI) 
+
+Configuration : 
+	string.xml :  All string and configuration to connect for ws and openhab 
+

@@ -16,15 +16,6 @@ Android -> SDK Manager)
 - Check out the latest code from github
 - Open the project in Android Studio (File -> Open, select project folder)
 
-You are ready to contribute!
-
-Before producing any amount of code please have a look at [contribution guidelines](https://github.com/openhab/openhab.android/blob/master/CONTRIBUTING.md)
-
-## Trademark Disclaimer
-
-Product names, logos, brands and other trademarks referred to within the openHAB website are the
-property of their respective trademark holders. These trademark holders are not affiliated with
-openHAB or our website. They do not sponsor or endorse our materials.
 # smathouse
 
 
